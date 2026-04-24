@@ -364,4 +364,85 @@ Ajoute des emojis pertinents si approprié. Ne donne pas d'explication, seulemen
 
         <main className="main">
           <div className="panel-left">
-            <div clas
+            <div className="placeholder-state">
+                    <div className="placeholder-icon">✦</div>
+                    <div>Ton contenu apparaîtra ici</div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {history.length > 0 && (
+              <div className="history-card">
+                <div className="card-title" style={{ marginBottom: 8 }}>Historique récent</div>
+                {history.map(h => (
+                  <div key={h.id} className="history-item" onClick={() => setResult(h.text)}>
+                    <span className="history-tag">{h.template.split(" ").slice(1).join(" ")}</span>
+                    <span className="history-snippet">{h.topic}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+
+        <div className="stats-bar">
+          <div className="stat"><div className="stat-dot" style={{ background: "#6dfacc" }} />IA Active</div>
+          <div className="stat"><div className="stat-dot" style={{ background: "#7c6dfa" }} />{history.length} générations cette session</div>
+          <div className="stat" style={{ marginLeft: "auto" }}>Plan : <strong style={{ color: "var(--text)", marginLeft: 4 }}>{PLANS[plan].name}</strong></div>
+        </div>
+
+        {showModal && (
+          <div className="modal-overlay" onClick={e => e.target === e.currentTarget && setShowModal(false)}>
+            <div className="modal">
+              <button className="btn-close" onClick={() => setShowModal(false)}>✕</button>
+              <h2>Passe à la vitesse<br /><span style={{ background: "linear-gradient(135deg,#7c6dfa,#fa6d9a)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>supérieure</span></h2>
+              <p>Entre ton email puis choisis un plan pour débloquer les générations illimitées.</p>
+              <input
+                className="email-input"
+                type="email"
+                placeholder="ton@email.com"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <div className="plans-grid">
+                <div className="plan-card recommended">
+                  <span className="recommended-tag">⚡ Populaire</span>
+                  <div style={{ fontSize: "0.8rem", color: "var(--accent)", marginBottom: 4 }}>PRO</div>
+                  <div className="plan-price">9€<span>/mois</span></div>
+                  <div className="plan-features">
+                    ✓ Générations illimitées<br />
+                    ✓ Tous les templates<br />
+                    ✓ Historique complet<br />
+                    ✓ Export en 1 clic
+                  </div>
+                  <button className="btn-select-plan" onClick={() => handleUpgrade("pro")} disabled={checkoutLoading === "pro"}>
+                    {checkoutLoading === "pro" ? "Redirection..." : "Choisir Pro →"}
+                  </button>
+                </div>
+                <div className="plan-card">
+                  <div style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: 4 }}>BUSINESS</div>
+                  <div className="plan-price">29€<span>/mois</span></div>
+                  <div className="plan-features">
+                    ✓ Tout du Pro<br />
+                    ✓ Multi-utilisateurs (5)<br />
+                    ✓ Ton de voix personnalisé<br />
+                    ✓ API access
+                  </div>
+                  <button className="btn-select-plan" style={{ background: "linear-gradient(135deg,#facc6d,#6dfacc)", color: "#111" }} onClick={() => handleUpgrade("business")} disabled={checkoutLoading === "business"}>
+                    {checkoutLoading === "business" ? "Redirection..." : "Choisir Business →"}
+                  </button>
+                </div>
+              </div>
+              <p style={{ textAlign: "center", fontSize: "0.75rem", margin: 0 }}>
+                💳 Sans engagement · Annulation en 1 clic · Satisfait ou remboursé 14 jours
+              </p>
+            </div>
+          </div>
+        )}
+
+        {toast && <div className="toast">{toast}</div>}
+      </div>
+    </>
+  );
+    }
